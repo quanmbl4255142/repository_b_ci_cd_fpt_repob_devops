@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: django-api
-        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:latest
+        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:v4.0
         ports:
         - containerPort: 8000
         env:
