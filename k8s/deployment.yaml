@@ -39,6 +39,10 @@ spec:
             python manage.py migrate --noinput
             python manage.py collectstatic --noinput
             gunicorn --bind 0.0.0.0:8000 django_api.wsgi:application
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 5"]
         ports:
         - containerPort: 8000
         env:
