@@ -1,0 +1,76 @@
+========================================
+LỆNH KHỞI ĐỘNG ARGOCD
+========================================
+
+📌 CÁCH 1: Chạy script tự động
+--------------------------------------------------
+cd Repository_B
+bash setup-argocd.sh
+
+
+📌 CÁCH 2: Chạy từng lệnh
+--------------------------------------------------
+
+# 1. Khởi động tất cả ArgoCD pods
+kubectl scale deployment argocd-server -n argocd-new --replicas=1
+kubectl scale deployment argocd-repo-server -n argocd-new --replicas=1
+kubectl scale deployment argocd-dex-server -n argocd-new --replicas=1
+kubectl scale deployment argocd-redis -n argocd-new --replicas=1
+kubectl scale deployment argocd-notifications-controller -n argocd-new --replicas=1
+kubectl scale deployment argocd-applicationset-controller -n argocd-new --replicas=1
+kubectl scale statefulset argocd-application-controller -n argocd-new --replicas=1
+
+# 2. Kiểm tra ArgoCD đã chạy chưa
+kubectl get pods -n argocd-new
+
+# 3. Lấy password admin (nếu cần)
+kubectl -n argocd-new get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+# 4. Truy cập ArgoCD UI
+kubectl port-forward svc/argocd-server -n argocd-new 8080:443
+# Sau đó mở: https://localhost:8080
+# Username: admin
+# Password: (từ lệnh trên)
+
+
+📌 LỆNH THƯỜNG DÙNG
+--------------------------------------------------
+
+# Xem applications
+kubectl get app -n argocd-new
+
+# Xem Django pods
+kubectl get pods -n django-api
+
+# Force sync ngay
+kubectl patch app django-api-app -n argocd-new -p '{"metadata":{"annotations":{"argocd.argoproj.io/refresh":"hard"}}}' --type merge
+
+# Xem logs Django
+kubectl logs -f deployment/django-api -n django-api
+
+# Xem logs ArgoCD
+kubectl logs -f statefulset/argocd-application-controller -n argocd-new
+
+
+📌 TẮT ARGOCD (nếu cần)
+--------------------------------------------------
+
+kubectl scale deployment argocd-server -n argocd-new --replicas=0
+kubectl scale deployment argocd-repo-server -n argocd-new --replicas=0
+kubectl scale deployment argocd-dex-server -n argocd-new --replicas=0
+kubectl scale deployment argocd-redis -n argocd-new --replicas=0
+kubectl scale deployment argocd-notifications-controller -n argocd-new --replicas=0
+kubectl scale deployment argocd-applicationset-controller -n argocd-new --replicas=0
+kubectl scale statefulset argocd-application-controller -n argocd-new --replicas=0
+
+
+========================================
+LƯU Ý
+========================================
+
+✅ ArgoCD tự động sync mỗi 50 giây
+✅ Namespace ArgoCD: argocd-new
+✅ Namespace Django: django-api
+✅ Application: django-api-app
+✅ Database được lưu trong PVC (không mất data)
+

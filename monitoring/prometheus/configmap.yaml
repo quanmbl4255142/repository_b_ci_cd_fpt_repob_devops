@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    
+    scrape_configs:
+      # ArgoCD Application Controller
+      - job_name: 'argocd-application-controller'
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - argocd-new
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+            action: keep
+            regex: argocd-application-controller
+          - source_labels: [__meta_kubernetes_pod_ip]
+            action: replace
+            target_label: __address__
+            replacement: $1:8082
+      
+      # ArgoCD Server
+      - job_name: 'argocd-server'
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - argocd-new
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+            action: keep
+            regex: argocd-server
+          - source_labels: [__meta_kubernetes_pod_ip]
+            action: replace
+            target_label: __address__
+            replacement: $1:8083
+      
+      # ArgoCD Repo Server
+      - job_name: 'argocd-repo-server'
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - argocd-new
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+            action: keep
+            regex: argocd-repo-server
+          - source_labels: [__meta_kubernetes_pod_ip]
+            action: replace
+            target_label: __address__
+            replacement: $1:8084
+
