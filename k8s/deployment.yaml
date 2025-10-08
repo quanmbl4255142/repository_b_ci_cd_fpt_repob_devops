@@ -21,9 +21,9 @@ spec:
     spec:
       containers:
       - name: django-api
-        image: nginx:latest
+        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8000
         env:
         - name: DJANGO_SETTINGS_MODULE
           value: "django_api.settings"
@@ -36,13 +36,13 @@ spec:
             cpu: "500m"
         livenessProbe:
           httpGet:
-            path: /
-            port: 80
+            path: /api/health/
+            port: 8000
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
-            path: /
-            port: 80
+            path: /api/health/
+            port: 8000
           initialDelaySeconds: 5
           periodSeconds: 5
