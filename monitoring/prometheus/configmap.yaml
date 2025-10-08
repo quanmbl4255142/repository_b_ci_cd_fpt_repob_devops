@@ -10,6 +10,12 @@ data:
       evaluation_interval: 15s
     
     scrape_configs:
+      # Django API - Metrics chính cho dashboard
+      - job_name: 'django-api'
+        static_configs:
+          - targets: ['django-api-service.django-api.svc.cluster.local:8000']
+        metrics_path: '/metrics'
+      
       # ArgoCD Application Controller
       - job_name: 'argocd-application-controller'
         kubernetes_sd_configs:
