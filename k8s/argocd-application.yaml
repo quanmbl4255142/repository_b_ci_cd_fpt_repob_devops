@@ -5,6 +5,8 @@ metadata:
   namespace: argocd-new
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    notifications.argoproj.io/subscribe.on-deployed.webhook: webhook:argocd-webhook
 spec:
   project: default
   source:

@@ -6,6 +6,7 @@ resources:
 - deployment.yaml
 - service.yaml
 - ingress.yaml
+- argocd-webhook.yaml
 
 commonLabels:
   app: django-api
