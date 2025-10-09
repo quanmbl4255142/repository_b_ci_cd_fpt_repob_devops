@@ -21,7 +21,7 @@ spec:
       labels:
         app: Django-app-main11
       annotations:
-        timestamp: "1760011534"
+        timestamp: "1760011773"
     spec:
       initContainers:
       - name: init-data-dir
@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: Django-app-main11
-        image: ghcr.io/QuanMBL4255142/test_new_argo_1:latest
+        image: ghcr.io/QuanMBL4255142/repository:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
