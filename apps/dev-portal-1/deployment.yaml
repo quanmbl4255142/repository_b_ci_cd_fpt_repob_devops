@@ -21,7 +21,7 @@ spec:
       labels:
         app: dev-portal-1
       annotations:
-        timestamp: "1759980807"
+        timestamp: "1759983584"
     spec:
       initContainers:
       - name: init-data-dir
