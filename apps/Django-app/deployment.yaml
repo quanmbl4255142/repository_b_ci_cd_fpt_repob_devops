@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Django-app
+  namespace: Django-app
+  labels:
+    app: Django-app
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: Django-app=ghcr.io/QuanMBL4255142/my-django-app1
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: apps/Django-app/deployment.yaml
+    argocd-image-updater.argoproj.io/Django-app.update-strategy: latest
+    argocd-image-updater.argoproj.io/Django-app.allow-tags: regexp:^.*$
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: Django-app
+  template:
+    metadata:
+      labels:
+        app: Django-app
+      annotations:
+        timestamp: "1759995152"
+    spec:
+      initContainers:
+      - name: init-data-dir
+        image: busybox:latest
+        command: ['sh', '-c', 'mkdir -p /app/data && chmod 777 /app/data']
+        volumeMounts:
+        - name: app-data
+          mountPath: /app/data
+      containers:
+      - name: Django-app
+        image: ghcr.io/QuanMBL4255142/my-django-app1:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            python manage.py migrate --noinput
+            python manage.py collectstatic --noinput
+            gunicorn --bind 0.0.0.0:8000 django_api.wsgi:application
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 5"]
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DJANGO_SETTINGS_MODULE
+          value: "django_api.settings"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        volumeMounts:
+        - name: app-data
+          mountPath: /app/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: app-data
+        persistentVolumeClaim:
+          claimName: Django-app-pvc
