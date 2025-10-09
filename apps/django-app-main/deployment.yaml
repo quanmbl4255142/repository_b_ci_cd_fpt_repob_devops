@@ -6,7 +6,7 @@ metadata:
   labels:
     app: django-app-main
   annotations:
-    argocd-image-updater.argoproj.io/image-list: django-app-main=ghcr.io/QuanMBL4255142/django_v1
+    argocd-image-updater.argoproj.io/image-list: django-app-main=ghcr.io/QuanMBL4255142/django_v2
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/write-back-target: apps/django-app-main/deployment.yaml
     argocd-image-updater.argoproj.io/django-app-main.update-strategy: latest
@@ -21,7 +21,7 @@ spec:
       labels:
         app: django-app-main
       annotations:
-        timestamp: "1760023584"
+        timestamp: "1760023749"
     spec:
       initContainers:
       - name: init-data-dir
@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: django-app-main
-        image: ghcr.io/QuanMBL4255142/django_v1:latest
+        image: ghcr.io/QuanMBL4255142/django_v2:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
