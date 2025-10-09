@@ -485,3 +485,4 @@ echo "   ${BLUE}kubectl apply -f argocd-apps/app-of-apps.yaml${NC}"
 echo ""
 echo -e "${GREEN}🎉 Repository_B is now ready for multiple applications!${NC}"
 
+#
