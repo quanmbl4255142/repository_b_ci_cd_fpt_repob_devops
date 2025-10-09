@@ -17,9 +17,9 @@ spec:
     spec:
       containers:
       - name: dev-portal
-        image: ghcr.io/quanmbl4255142/dev-portal-service:latest
+        image: nginx:alpine
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         env:
         - name: PORT
           value: "8080"
@@ -32,13 +32,13 @@ spec:
             cpu: "500m"
         livenessProbe:
           httpGet:
-            path: /health
-            port: 8080
+            path: /
+            port: 80
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
-            path: /health
-            port: 8080
+            path: /
+            port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
