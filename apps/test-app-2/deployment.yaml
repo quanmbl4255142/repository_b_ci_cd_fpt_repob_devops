@@ -21,7 +21,7 @@ spec:
       labels:
         app: test-app-2
       annotations:
-        timestamp: "1760028218"
+        timestamp: "1760029032"
     spec:
       initContainers:
       - name: init-data-dir
