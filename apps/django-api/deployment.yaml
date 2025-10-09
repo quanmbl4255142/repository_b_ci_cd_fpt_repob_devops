@@ -1,19 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django-api-fixed
+  name: django-api
   namespace: django-api
   labels:
-    app: django-api-fixed
+    app: django-api
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: django-api=ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: k8s/deployment.yaml
+    argocd-image-updater.argoproj.io/django-api.update-strategy: latest
+    argocd-image-updater.argoproj.io/django-api.allow-tags: regexp:^.*$
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: django-api-fixed
+      app: django-api
   template:
     metadata:
       labels:
-        app: django-api-fixed
+        app: django-api
+      annotations:
+        timestamp: "1759935883"
     spec:
       initContainers:
       - name: init-data-dir
