@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test-app-1
+  labels:
+    name: test-app-1
+    managed-by: dev-portal
