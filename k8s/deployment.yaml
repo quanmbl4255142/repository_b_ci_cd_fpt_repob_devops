@@ -21,7 +21,7 @@ spec:
       labels:
         app: django-api
       annotations:
-        timestamp: "1760072899"
+        timestamp: "1760075828"
     spec:
       initContainers:
       - name: init-data-dir
