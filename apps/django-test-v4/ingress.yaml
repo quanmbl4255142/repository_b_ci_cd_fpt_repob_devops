@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: django-test-v4-ingress
+  namespace: django-test-v4
+  labels:
+    app: django-test-v4
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - django-test-v4.yourdomain.com
+    secretName: django-test-v4-tls
+  rules:
+  - host: django-test-v4.yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: django-test-v4-service
+            port:
+              number: 8000
