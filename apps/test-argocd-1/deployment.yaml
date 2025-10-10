@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: test-argocd-1
-        image: ghcr.io/quanmbl4255142/test_argocd_1:latest
+        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
