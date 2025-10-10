@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-test-v3
+  namespace: django-test-v3
+  labels:
+    app: django-test-v3
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: django-test-v3=ghcr.io/quanmbl4255142/django-test-v3
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: apps/django-test-v3/deployment.yaml
+    argocd-image-updater.argoproj.io/django-test-v3.update-strategy: latest
+    argocd-image-updater.argoproj.io/django-test-v3.allow-tags: regexp:^.*$
+    argocd-image-updater.argoproj.io/django-test-v3.git-tag: regexp:^.*$
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: django-test-v3
+  template:
+    metadata:
+      labels:
+        app: django-test-v3
+      annotations:
+        timestamp: "1760085904"
+    spec:
+      initContainers:
+      - name: init-data-dir
+        image: busybox:latest
+        command: ['sh', '-c', 'mkdir -p /app/data && chmod 777 /app/data']
+        volumeMounts:
+        - name: app-data
+          mountPath: /app/data
+      containers:
+      - name: django-test-v3
+        image: ghcr.io/quanmbl4255142/django-test-v3:latest
+        imagePullPolicy: Always
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            python manage.py migrate --noinput
+            python manage.py collectstatic --noinput
+            gunicorn --bind 0.0.0.0:8000 django-test-v3.wsgi:application
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 5"]
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DJANGO_SETTINGS_MODULE
+          value: "django-test-v3.settings"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        volumeMounts:
+        - name: app-data
+          mountPath: /app/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        startupProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: app-data
+        persistentVolumeClaim:
+          claimName: django-test-v3-pvc
