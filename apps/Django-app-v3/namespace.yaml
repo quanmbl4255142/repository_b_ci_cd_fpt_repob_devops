@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: Django-app-v3
+  labels:
+    name: Django-app-v3
+    managed-by: dev-portal
