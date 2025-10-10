@@ -21,7 +21,7 @@ spec:
       labels:
         app: test-argocd-1
       annotations:
-        timestamp: "1760064148"
+        timestamp: "1760064367"
     spec:
       initContainers:
       - name: init-data-dir
@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: test-argocd-1
-        image: ghcr.io/QuanMBL4255142/test_argocd_1:latest
+        image: ghcr.io/QuanMBL4255142/repository:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
