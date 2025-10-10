@@ -21,7 +21,7 @@ spec:
       labels:
         app: test-argocd-1
       annotations:
-        timestamp: "1760064367"
+        timestamp: "1760064886"
     spec:
       initContainers:
       - name: init-data-dir
