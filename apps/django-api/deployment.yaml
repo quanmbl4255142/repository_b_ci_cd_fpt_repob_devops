@@ -6,7 +6,7 @@ metadata:
   labels:
     app: django-api
   annotations:
-    argocd-image-updater.argoproj.io/image-list: django-api=ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code
+    argocd-image-updater.argoproj.io/image-list: django-api=ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repoa_code
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/write-back-target: k8s/deployment.yaml
     argocd-image-updater.argoproj.io/django-api.update-strategy: latest
@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: django-api
-        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:latest
+        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repoa_code:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
