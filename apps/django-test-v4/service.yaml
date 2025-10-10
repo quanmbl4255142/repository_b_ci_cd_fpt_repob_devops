@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-test-v4-service
+  namespace: django-test-v4
+  labels:
+    app: django-test-v4
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: django-test-v4
