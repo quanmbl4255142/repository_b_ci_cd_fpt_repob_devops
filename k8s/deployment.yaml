@@ -21,7 +21,7 @@ spec:
       labels:
         app: django-api
       annotations:
-        timestamp: "1760063508"
+        timestamp: "1760072899"
     spec:
       initContainers:
       - name: init-data-dir
@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: django-api
-        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repoa_code:latest
+        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
