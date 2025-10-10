@@ -6,7 +6,7 @@ metadata:
   labels:
     app: test-argocd-1
   annotations:
-    argocd-image-updater.argoproj.io/image-list: test-argocd-1=ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repoa_code
+    argocd-image-updater.argoproj.io/image-list: test-argocd-1=ghcr.io/quanmbl4255142/test_argocd_1
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/write-back-target: apps/test-argocd-1/deployment.yaml
     argocd-image-updater.argoproj.io/test-argocd-1.update-strategy: latest
@@ -21,7 +21,7 @@ spec:
       labels:
         app: test-argocd-1
       annotations:
-        timestamp: "1760074792"
+        timestamp: "1760078387"
     spec:
       initContainers:
       - name: init-data-dir
@@ -32,7 +32,8 @@ spec:
           mountPath: /app/data
       containers:
       - name: test-argocd-1
-        image: ghcr.io/QuanMBL4255142/repository:latest
+        image: ghcr.io/quanmbl4255142/test_argocd_1:latest
+        imagePullPolicy: Always
         command: ["/bin/sh", "-c"]
         args:
           - |
@@ -60,6 +61,14 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+        startupProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 30
         livenessProbe:
           httpGet:
             path: /api/health/
