@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: django-api
-        image: ghcr.io/QuanMBL4255142/Repository_A_CI_CD_FPT_repoA_code:latest
+        image: ghcr.io/QuanMBL4255142/repository_a_ci_cd_fpt_repob_code:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
