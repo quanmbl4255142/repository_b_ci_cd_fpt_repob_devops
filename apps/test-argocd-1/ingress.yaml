@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-argocd-1-ingress
+  namespace: test-argocd-1
+  labels:
+    app: test-argocd-1
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - test-argocd-1.yourdomain.com
+    secretName: test-argocd-1-tls
+  rules:
+  - host: test-argocd-1.yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: test-argocd-1-service
+            port:
+              number: 8000
