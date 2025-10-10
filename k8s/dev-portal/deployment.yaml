@@ -6,7 +6,7 @@ metadata:
   labels:
     app: dev-portal
   annotations:
-    argocd-image-updater.argoproj.io/image-list: dev-portal=ghcr.io/quanmbl4255142/dev-portal-service
+    argocd-image-updater.argoproj.io/image-list: dev-portal=ghcr.io/quanmbl4255142/repository_b_ci_cd_fpt_repob_devops
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/write-back-target: k8s/dev-portal/deployment.yaml
     argocd-image-updater.argoproj.io/dev-portal.update-strategy: latest
@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: dev-portal
-        image: ghcr.io/quanmbl4255142/dev-portal-service:latest
+        image: ghcr.io/quanmbl4255142/repository_b_ci_cd_fpt_repob_devops:latest
         ports:
         - containerPort: 8080
         env:
