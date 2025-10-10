@@ -6,7 +6,7 @@ metadata:
   labels:
     app: test-argocd-1
   annotations:
-    argocd-image-updater.argoproj.io/image-list: test-argocd-1=ghcr.io/QuanMBL4255142/test_argocd_1
+    argocd-image-updater.argoproj.io/image-list: test-argocd-1=ghcr.io/quanmbl4255142/test_argocd_1
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/write-back-target: apps/test-argocd-1/deployment.yaml
     argocd-image-updater.argoproj.io/test-argocd-1.update-strategy: latest
@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: test-argocd-1
-        image: ghcr.io/QuanMBL4255142/repository:latest
+        image: ghcr.io/quanmbl4255142/repository:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
