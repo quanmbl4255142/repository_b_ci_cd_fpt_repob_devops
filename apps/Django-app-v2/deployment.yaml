@@ -21,7 +21,7 @@ spec:
       labels:
         app: Django-app-v2
       annotations:
-        timestamp: "1760080858"
+        timestamp: "1760081257"
     spec:
       initContainers:
       - name: init-data-dir
@@ -32,7 +32,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: Django-app-v2
-        image: ghcr.io/quanmbl4255142/django-test-v2:latest
+        image: ghcr.io/quanmbl4255142/repository:latest
         imagePullPolicy: Always
         command: ["/bin/sh", "-c"]
         args:
