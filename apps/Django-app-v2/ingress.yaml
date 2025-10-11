@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: Django-app-v2-ingress
+  namespace: Django-app-v2
+  labels:
+    app: Django-app-v2
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - Django-app-v2.yourdomain.com
+    secretName: Django-app-v2-tls
+  rules:
+  - host: Django-app-v2.yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: Django-app-v2-service
+            port:
+              number: 8000
