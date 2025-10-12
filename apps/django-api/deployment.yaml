@@ -25,13 +25,6 @@ spec:
       annotations:
         timestamp: "1760292671"
     spec:
-      initContainers:
-      - name: init-data-dir
-        image: busybox:latest
-        command: ['sh', '-c', 'mkdir -p /app/data && chmod 777 /app/data']
-        volumeMounts:
-        - name: django-data
-          mountPath: /app/data
       containers:
       - name: django-api
         image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:main-33f0482

@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: django-apps
-  namespace: argocd-new
+  namespace: argocd
 spec:
   generators:
   - git:
@@ -10,10 +10,10 @@ spec:
       revision: main
       directories:
       - path: apps/*
-  template:
+  template: 
     metadata:
       name: '{{path.basename}}'
-      namespace: argocd-new
+      namespace: argocd
       finalizers:
       - resources-finalizer.argocd.argoproj.io
     spec:
