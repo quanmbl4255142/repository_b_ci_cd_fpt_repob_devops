@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: django-api
-        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:latest
+        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:main-33f0482
         command: ["/bin/sh", "-c"]
         args:
           - |
