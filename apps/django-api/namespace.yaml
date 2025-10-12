@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: django-api
+  labels:
+    name: django-api
+    managed-by: dev-portal
+ 
