@@ -23,11 +23,11 @@ spec:
         app: django-api
         environment: production
       annotations:
-        timestamp: "1760328783"
+        timestamp: "1760329237"
     spec:
       containers:
       - name: django-api
-        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:main-33f0482
+        image: ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code:main-a0c41d1
         command: ["/bin/sh", "-c"]
         args:
           - |
