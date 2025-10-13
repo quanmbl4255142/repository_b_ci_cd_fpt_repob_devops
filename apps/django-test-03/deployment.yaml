@@ -23,7 +23,7 @@ spec:
         app: django-test-03
         environment: production
       annotations:
-        timestamp: "1760344893"
+        timestamp: "1760346898"
     spec:
       initContainers:
       - name: init-data-dir
