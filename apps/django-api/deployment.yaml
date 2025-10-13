@@ -23,7 +23,7 @@ spec:
         app: django-api
         environment: production
       annotations:
-        timestamp: "1760292671"
+        timestamp: "1760328783"
     spec:
       containers:
       - name: django-api
