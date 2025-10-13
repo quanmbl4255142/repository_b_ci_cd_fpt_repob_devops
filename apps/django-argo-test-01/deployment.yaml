@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-argo-test-01
+  namespace: django-argo-test-01
+  labels:
+    app: django-argo-test-01
+    environment: production
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: django-argo-test-01=ghcr.io/quanmbl4255142/django_argo_test_01
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: apps/django-argo-test-01/deployment.yaml
+    argocd-image-updater.argoproj.io/django-argo-test-01.update-strategy: latest
+    argocd-image-updater.argoproj.io/django-argo-test-01.allow-tags: regexp:^.*$
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: django-argo-test-01
+  template:
+    metadata:
+      labels:
+        app: django-argo-test-01
+        environment: production
+      annotations:
+        timestamp: "1760331511"
+    spec:
+      initContainers:
+      - name: init-data-dir
+        image: busybox:latest
+        command: ['sh', '-c', 'mkdir -p /app/data && chmod 777 /app/data']
+        volumeMounts:
+        - name: django-argo-test-01-data
+          mountPath: /app/data
+      containers:
+      - name: django-argo-test-01
+        image: ghcr.io/quanmbl4255142/django_argo_test_01:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            python manage.py migrate --noinput
+            python manage.py collectstatic --noinput
+            gunicorn --bind 0.0.0.0:8000 django_argo_test_01.wsgi:application
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 5"]
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DJANGO_SETTINGS_MODULE
+          value: "django_argo_test_01.settings"
+        - name: ENVIRONMENT
+          value: "production"
+        volumeMounts:
+        - name: django-argo-test-01-data
+          mountPath: /app/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: django-argo-test-01-data
+        persistentVolumeClaim:
+          claimName: django-argo-test-01-pvc
