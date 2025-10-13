@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: django-api-staging
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: django-api=ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code
+    argocd-image-updater.argoproj.io/write-back-method: argocd
+    argocd-image-updater.argoproj.io/django-api.update-strategy: newest-build
+    argocd-image-updater.argoproj.io/django-api.allow-tags: regexp:^main-.*$
+    argocd-image-updater.argoproj.io/django-api.force-update: "true"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/quanmbl4255142/repository_b_ci_cd_fpt_repob_devops.git
+    targetRevision: main
+    path: apps/django-api-staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: django-api-staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  revisionHistoryLimit: 3
+
+

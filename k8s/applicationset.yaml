@@ -9,7 +9,7 @@ spec:
       repoURL: https://github.com/quanmbl4255142/repository_b_ci_cd_fpt_repob_devops.git
       revision: main
       directories:
-      - path: apps/*
+      - path: apps/django-api
   template: 
     metadata:
       name: '{{path.basename}}'

@@ -8,10 +8,10 @@ metadata:
     environment: staging
   annotations:
     argocd-image-updater.argoproj.io/image-list: django-api=ghcr.io/quanmbl4255142/repository_a_ci_cd_fpt_repob_code
-    argocd-image-updater.argoproj.io/write-back-method: git
-    argocd-image-updater.argoproj.io/write-back-target: apps/django-api-staging/deployment.yaml
+    argocd-image-updater.argoproj.io/write-back-method: argocd
     argocd-image-updater.argoproj.io/django-api.update-strategy: latest
-    argocd-image-updater.argoproj.io/django-api.allow-tags: regexp:^.*$
+    argocd-image-updater.argoproj.io/django-api.allow-tags: regexp:^main-.*$
+    argocd-image-updater.argoproj.io/django-api.pull-secret: pullsecret:argocd/ghcr-pull-secret
 spec:
   replicas: 2
   selector:
