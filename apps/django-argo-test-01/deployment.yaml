@@ -34,7 +34,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: django-argo-test-01
-        image: ghcr.io/quanmbl4255142/repository:latest
+        image: ghcr.io/quanmbl4255142/django_argo_test_01:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
