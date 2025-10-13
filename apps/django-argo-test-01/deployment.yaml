@@ -23,7 +23,7 @@ spec:
         app: django-argo-test-01
         environment: production
       annotations:
-        timestamp: "1760331631"
+        timestamp: "1760340069"
     spec:
       initContainers:
       - name: init-data-dir
