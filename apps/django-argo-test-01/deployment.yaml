@@ -23,7 +23,7 @@ spec:
         app: django-argo-test-01
         environment: production
       annotations:
-        timestamp: "1760331511"
+        timestamp: "1760331594"
     spec:
       initContainers:
       - name: init-data-dir
@@ -34,7 +34,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: django-argo-test-01
-        image: ghcr.io/quanmbl4255142/django_argo_test_01:latest
+        image: ghcr.io/quanmbl4255142/repository:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
