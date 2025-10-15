@@ -14,4 +14,4 @@ commonLabels:
   version: v1.0.0
   managed-by: dev-portal
 
-namespace: django-api
+namespace: django-api-staging
