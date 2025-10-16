@@ -23,7 +23,7 @@ spec:
         app: django-test-04
         environment: production
       annotations:
-        timestamp: "1760602674"
+        timestamp: "1760602686"
     spec:
       initContainers:
       - name: init-data-dir
@@ -40,13 +40,13 @@ spec:
           - |
             python manage.py migrate --noinput
             python manage.py collectstatic --noinput
-            gunicorn --bind 0.0.0.0:8000 django-test-04.wsgi:application
+            gunicorn --bind 0.0.0.0:4000 django-test-04.wsgi:application
         lifecycle:
           preStop:
             exec:
               command: ["/bin/sh", "-c", "sleep 5"]
         ports:
-        - containerPort: 8000
+        - containerPort: 4000
         env:
         - name: DJANGO_SETTINGS_MODULE
           value: "django-test-04.settings"
@@ -65,13 +65,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /api/health/
-            port: 8000
+            port: 4000
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /api/health/
-            port: 8000
+            port: 4000
           initialDelaySeconds: 5
           periodSeconds: 5
       volumes:
