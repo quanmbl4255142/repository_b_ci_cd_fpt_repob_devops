@@ -8,22 +8,22 @@ resources:
 - service.yaml
 - ingress.yaml
 
-# commonLabels không áp dụng cho selector (immutable)
-# Chỉ áp dụng cho metadata labels
-commonLabels:
-  version: v1.0.0
-  managed-by: dev-portal
+# Sử dụng labels thay vì commonLabels (deprecated)
+labels:
+- pairs:
+    version: v1.0.0
+    managed-by: dev-portal
 
-# Loại bỏ commonLabels khỏi selector để tránh lỗi immutable
-patchesStrategicMerge:
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
+# Sử dụng patches thay vì patchesStrategicMerge (deprecated)
+patches:
+- target:
+    kind: Deployment
     name: django-api-staging
-  spec:
-    selector:
-      matchLabels:
-        app: django-api-staging
+  patch: |-
+    - op: replace
+      path: /spec/selector
+      value:
+        matchLabels:
+          app: django-api-staging
 
 namespace: django-api-staging
