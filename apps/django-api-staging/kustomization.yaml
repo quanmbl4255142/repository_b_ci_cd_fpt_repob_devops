@@ -14,4 +14,16 @@ commonLabels:
   version: v1.0.0
   managed-by: dev-portal
 
+# Loại bỏ commonLabels khỏi selector để tránh lỗi immutable
+patchesStrategicMerge:
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: django-api-staging
+  spec:
+    selector:
+      matchLabels:
+        app: django-api-staging
+
 namespace: django-api-staging
