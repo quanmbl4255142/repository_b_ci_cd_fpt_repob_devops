@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: django-test-13
-  labels:
-    name: django-test-13
-    managed-by: dev-portal
