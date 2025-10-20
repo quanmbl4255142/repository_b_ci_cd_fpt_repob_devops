@@ -10,6 +10,8 @@ spec:
       revision: main
       directories:
       - path: apps/*
+      # Tối ưu: Refresh nhanh hơn để detect app mới sớm hơn
+      refresh: 30s
   template: 
     metadata:
       name: '{{path.basename}}'
