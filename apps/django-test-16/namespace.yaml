@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: django-test-16
+  labels:
+    name: django-test-16
+    managed-by: dev-portal
