@@ -34,5 +34,7 @@ spec:
         - CreateNamespace=true
         - PrunePropagationPolicy=foreground
         - PruneLast=true
+        # Auto-sync nhanh hơn
+        - RespectIgnoreDifferences=true
       revisionHistoryLimit: 3
 
