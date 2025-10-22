@@ -120,4 +120,4 @@ Khi tạo app mới từ Dev Portal:
 **Quản lý bởi:** Dev Portal  
 **ArgoCD Version:** v2.x
 
-ds
+ds  
