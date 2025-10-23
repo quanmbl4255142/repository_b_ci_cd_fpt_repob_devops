@@ -23,7 +23,7 @@ spec:
         app: django-api
         environment: production
       annotations:
-        timestamp: "1761205587"
+        timestamp: "1761206531"
     spec:
       initContainers:
       - name: init-data-dir
@@ -34,7 +34,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: django-api
-        image: ghcr.io/quanmbl4255142/django-test-66:latest
+        image: ghcr.io/quanmbl4255142/django-test-67:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
