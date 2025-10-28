@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flask-test-03
+  labels:
+    name: flask-test-03
+    managed-by: dev-portal
