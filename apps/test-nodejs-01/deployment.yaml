@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-nodejs-01
+  namespace: test-nodejs-01
+  labels:
+    app: test-nodejs-01
+    environment: production
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: test-nodejs-01=ghcr.io/quancv2k4/nodejs_tesst
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: apps/test-nodejs-01/deployment.yaml
+    argocd-image-updater.argoproj.io/test-nodejs-01.update-strategy: latest
+    argocd-image-updater.argoproj.io/test-nodejs-01.allow-tags: regexp:^.*$
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-nodejs-01
+  template:
+    metadata:
+      labels:
+        app: test-nodejs-01
+        environment: production
+      annotations:
+        timestamp: "1761641265"
+    spec:
+      initContainers:
+      - name: init-data-dir
+        image: busybox:latest
+        command: ['sh', '-c', 'mkdir -p /app/data && chmod 777 /app/data']
+        volumeMounts:
+        - name: test-nodejs-01-data
+          mountPath: /app/data
+      containers:
+      - name: test-nodejs-01
+        image: ghcr.io/quancv2k4/nodejs_tesst:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            node server.js
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 5"]
+        ports:
+        - containerPort: 8000
+        env:
+        - name: NODE_ENV
+          value: production
+        - name: ENVIRONMENT
+          value: production
+        volumeMounts:
+        - name: test-nodejs-01-data
+          mountPath: /app/data
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health/
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: test-nodejs-01-data
+        persistentVolumeClaim:
+          claimName: test-nodejs-01-pvc
