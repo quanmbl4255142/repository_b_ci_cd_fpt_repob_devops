@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nodejs-test-02
+  labels:
+    name: nodejs-test-02
+    managed-by: dev-portal
