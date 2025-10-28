@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nodejs-tetst-03-pvc
+  namespace: nodejs-tetst-03
+  labels:
+    app: nodejs-tetst-03
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
