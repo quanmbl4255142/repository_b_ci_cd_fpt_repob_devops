@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: django-apps
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/quanmbl4255142/repository_b_ci_cd_fpt_repob_devops
+      revision: HEAD
+      directories:
+      - path: apps/*  # Quét tất cả thư mục trong apps/
+      # Refresh interval: 30 seconds (faster detection)
+      refreshSeconds: 30
+  
+  template:
+    metadata:
+      name: "${path.basename}-app"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+      labels:
+        managed-by: dev-portal
+        app-name: "${path.basename}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/quanmbl4255142/repository_b_ci_cd_fpt_repob_devops
+        targetRevision: HEAD
+        path: "${path}"  # path = apps/app-name
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "${path.basename}"  # namespace = app-name
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions: 
+        - CreateNamespace=true
