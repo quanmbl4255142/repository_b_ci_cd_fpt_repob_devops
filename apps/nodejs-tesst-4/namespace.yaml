@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nodejs-tesst-4
+  labels:
+    name: nodejs-tesst-4
+    managed-by: dev-portal
