@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nodejs-tesst-07-ingress
+  namespace: nodejs-tesst-07
+  labels:
+    app: nodejs-tesst-07
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - nodejs-tesst-07.yourdomain.com
+    secretName: nodejs-tesst-07-tls
+  rules:
+  - host: nodejs-tesst-07.yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nodejs-tesst-07-service
+            port:
+              number: 8000
