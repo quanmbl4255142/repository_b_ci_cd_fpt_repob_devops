@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nodejs-tesst-07
+  labels:
+    name: nodejs-tesst-07
+    managed-by: dev-portal
