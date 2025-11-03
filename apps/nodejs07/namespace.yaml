@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: nodejs07
-  labels:
-    name: nodejs07
-    managed-by: dev-portal
