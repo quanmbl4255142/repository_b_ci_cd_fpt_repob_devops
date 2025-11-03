@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: nodejs02
-  labels:
-    name: nodejs02
-    managed-by: dev-portal
