@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nodejs05
+  labels:
+    name: nodejs05
+    managed-by: dev-portal
